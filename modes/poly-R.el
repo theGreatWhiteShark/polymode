@@ -347,7 +347,7 @@ block. Thus, output file names don't comply with
                    :from-to
                    '(("latex" "\\.\\(tex\\|[rR]nw\\)\\'" "tex" "LaTeX" "Rscript -e \"knitr::knit('%i', output='%o')\"")
                      ("html" "\\.x?html?\\'" "html" "HTML" "Rscript -e \"knitr::knit('%i', output='%o')\"")
-                     ("markdown" "\\.[rR]?md]\\'" "md" "Markdown" "Rscript -e \"knitr::knit('%i', output='%o')\"")
+                     ("markdown" "\\.[rR]?md]\\'" "md" "Markdown" "Rscript -e \"rmarkdown::render('%i')\"")
                      ("rst" "\\.rst" "rst" "ReStructuredText" "Rscript -e \"knitr::knit('%i', output='%o')\"")
                      ("brew" "\\.[rR]?brew\\'" "brew" "Brew" "Rscript -e \"knitr::knit('%i', output='%o')\"")
                      ("asciidoc" "\\.asciidoc\\'" "txt" "AsciiDoc" "Rscript -e \"knitr::knit('%i', output='%o')\"")
@@ -365,7 +365,7 @@ block. Thus, output file names don't comply with
                       :from-to
                       '(("latex" "\\.\\(tex\\|rnw\\)\\'" "tex" "LaTeX" "knitr::knit('%I', output='%O')")
                         ("html" "\\.x?html?\\'" "html" "HTML" "knitr::knit('%I', output='%O')")
-                        ("markdown" "\\.r?md\\'" "md" "Markdown" "knitr::knit('%I', output='%O')")
+                        ("markdown" "\\.r?md\\'" "md" "Markdown" "rmarkdown::render('%I')")
                         ("rst" "\\.rst\\'" "rst" "ReStructuredText" "knitr::knit('%I', output='%O')")
                         ("brew" "\\.r?brew\\'" "brew" "Brew" "knitr::knit('%I', output='%O')")
                         ("asciidoc" "\\.asciidoc\\'" "txt" "AsciiDoc" "knitr::knit('%I', output='%O')")
