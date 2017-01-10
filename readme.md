@@ -1,3 +1,6 @@
+# Why I did this fork?
+For the export of .Rmd to .html I didn't wanted to use the **knitr** package but instead harness to full power of the **rmarkdown** package.
+
 [![unstable](http://badges.github.io/stability-badges/dist/unstable.svg)](http://github.com/badges/stability-badges)
 
 ## Overview
