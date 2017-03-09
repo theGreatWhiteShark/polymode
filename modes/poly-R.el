@@ -272,7 +272,7 @@
   (pm-shell-exporter "Rmarkdown"
                      :from
                      '(("Rmarkdown"  "\\.[rR]?md\\|rapport\\'" "R Markdown"
-                        "Rscript -e \"rmarkdown::render('%i', output_format = '%t', output_file = '%o')\""))
+                        "~/software/R/R-3.3.2/bin/Rscript -e \"rmarkdown::render('%i', output_format = '%t', output_file = '%o')\""))
                      :to
                      '(("auto" . pm--rmarkdown-shell-auto-selector)
                        ("html" "html" "html document" "html_document")
