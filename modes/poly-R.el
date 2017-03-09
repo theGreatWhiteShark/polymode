@@ -272,7 +272,7 @@
   (pm-shell-exporter "Rmarkdown"
                      :from
                      '(("Rmarkdown"  "\\.[rR]?md\\|rapport\\'" "R Markdown"
-                        "~/software/R/R-3.3.2/bin/Rscript -e \"rmarkdown::render('%i', output_format = '%t', output_file = '%o')\""))
+                        "/usr/local/bin/Rscript -e \"rmarkdown::render('%i', output_format = '%t', output_file = '%o')\""))
                      :to
                      '(("auto" . pm--rmarkdown-shell-auto-selector)
                        ("html" "html" "html document" "html_document")
@@ -296,7 +296,7 @@ block. Thus, output file names don't comply with
 (defun pm--rmarkdown-shell-auto-selector (action &rest ignore)
   (cl-case action
     (doc "AUTO DETECT")
-    (command "Rscript -e \"rmarkdown::render('%i', output_format = 'all')\"")
+    (command "/usr/local/bin/Rscript -e \"rmarkdown::render('%i', output_format = 'all')\"")
     (output-file #'pm--rmarkdown-output-file-sniffer)))
 
 (defcustom pm-exporter/Rmarkdown-ESS
@@ -345,13 +345,13 @@ block. Thus, output file names don't comply with
 (defcustom pm-weaver/knitR
   (pm-shell-weaver "knitr"
                    :from-to
-                   '(("latex" "\\.\\(tex\\|[rR]nw\\)\\'" "tex" "LaTeX" "Rscript -e \"knitr::knit('%i', output='%o')\"")
-                     ("html" "\\.x?html?\\'" "html" "HTML" "Rscript -e \"knitr::knit('%i', output='%o')\"")
-                     ("markdown" "\\.[rR]?md]\\'" "md" "Markdown" "Rscript -e \"rmarkdown::render('%i')\"")
-                     ("rst" "\\.rst" "rst" "ReStructuredText" "Rscript -e \"knitr::knit('%i', output='%o')\"")
-                     ("brew" "\\.[rR]?brew\\'" "brew" "Brew" "Rscript -e \"knitr::knit('%i', output='%o')\"")
-                     ("asciidoc" "\\.asciidoc\\'" "txt" "AsciiDoc" "Rscript -e \"knitr::knit('%i', output='%o')\"")
-                     ("textile" "\\.textile\\'" "textile" "Textile" "Rscript -e \"knitr::knit('%i', output='%o')\"")))
+                   '(("latex" "\\.\\(tex\\|[rR]nw\\)\\'" "tex" "LaTeX" "/usr/local/bin/Rscript -e \"knitr::knit('%i', output='%o')\"")
+                     ("html" "\\.x?html?\\'" "html" "HTML" "/usr/local/bin/Rscript -e \"knitr::knit('%i', output='%o')\"")
+                     ("markdown" "\\.[rR]?md]\\'" "md" "Markdown" "/usr/local/bin/Rscript -e \"rmarkdown::render('%i')\"")
+                     ("rst" "\\.rst" "rst" "ReStructuredText" "/usr/local/bin/Rscript -e \"knitr::knit('%i', output='%o')\"")
+                     ("brew" "\\.[rR]?brew\\'" "brew" "Brew" "/usr/local/bin/Rscript -e \"knitr::knit('%i', output='%o')\"")
+                     ("asciidoc" "\\.asciidoc\\'" "txt" "AsciiDoc" "/usr/local/bin/Rscript -e \"knitr::knit('%i', output='%o')\"")
+                     ("textile" "\\.textile\\'" "textile" "Textile" "/usr/local/bin/Rscript -e \"knitr::knit('%i', output='%o')\"")))
   "Shell knitR weaver."
   :group 'polymode-weave
   :type 'object)
