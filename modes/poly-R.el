@@ -268,15 +268,19 @@
 
 
 ;; Rmarkdown
+;; Using the variable R-binary-folder since I am working on different
+;; machines with different R versions.
 (defcustom pm-exporter/Rmarkdown
   (pm-shell-exporter "Rmarkdown"
                      :from
-                     '(("Rmarkdown"  "\\.[rR]?md\\|rapport\\'" "R Markdown"
-                        "/usr/local/bin/Rscript -e \"rmarkdown::render('%i', output_format = '%t', output_file = '%o')\""))
+                     (list
+                      (list "Rmarkdown"  "\\.[rR]?md\\|rapport\\'" "R Markdown"
+                            (concatenate 'string R-binary-folder
+                                         "Rscript -e \"rmarkdown::render('%i', output_format = '%t', output_file = '%o')\"")))
                      :to
                      '(("html" "html" "html document" "html_document")
                        ("auto" . pm--rmarkdown-shell-auto-selector)
-                       ("pdf" "pdf" "pdf document" "pdf_document")
+                       ("pdf" "pdf" "pdf docum1ent" "pdf_document")
                        ("word" "docx" "word document" "word_document")
                        ("md" "md" "md document" "md_document")
                        ("ioslides" "html" "ioslides presentation" "ioslides_presentation")
@@ -297,7 +301,7 @@ block. Thus, output file names don't comply with
 (defun pm--rmarkdown-shell-auto-selector (action &rest ignore)
   (cl-case action
     (doc "AUTO DETECT")
-    (command "/usr/local/bin/Rscript -e \"rmarkdown::render('%i', output_format = 'all')\"")
+    (command (concatenate 'string "Rscript -e \"rmarkdown::render('%i', output_format = 'all')\""))
     (output-file #'pm--rmarkdown-output-file-sniffer)))
 
 (defcustom pm-exporter/Rmarkdown-ESS
@@ -346,13 +350,28 @@ block. Thus, output file names don't comply with
 (defcustom pm-weaver/knitR
   (pm-shell-weaver "knitr"
                    :from-to
-                   '(("latex" "\\.\\(tex\\|[rR]nw\\)\\'" "tex" "LaTeX" "/usr/local/bin/Rscript -e \"knitr::knit('%i', output='%o')\"")
-                     ("html" "\\.x?html?\\'" "html" "HTML" "/usr/local/bin/Rscript -e \"knitr::knit('%i', output='%o')\"")
-                     ("markdown" "\\.[rR]?md]\\'" "md" "Markdown" "/usr/local/bin/Rscript -e \"rmarkdown::render('%i')\"")
-                     ("rst" "\\.rst" "rst" "ReStructuredText" "/usr/local/bin/Rscript -e \"knitr::knit('%i', output='%o')\"")
-                     ("brew" "\\.[rR]?brew\\'" "brew" "Brew" "/usr/local/bin/Rscript -e \"knitr::knit('%i', output='%o')\"")
-                     ("asciidoc" "\\.asciidoc\\'" "txt" "AsciiDoc" "/usr/local/bin/Rscript -e \"knitr::knit('%i', output='%o')\"")
-                     ("textile" "\\.textile\\'" "textile" "Textile" "/usr/local/bin/Rscript -e \"knitr::knit('%i', output='%o')\"")))
+                   (list
+                    (list "latex" "\\.\\(tex\\|[rR]nw\\)\\'" "tex" "LaTeX"
+                          (concatenate 'string R-binary-folder
+                                       "Rscript -e \"knitr::knit('%i', output='%o')\""))
+                     (list "html" "\\.x?html?\\'" "html" "HTML"
+                           (concatenate 'string R-binary-folder
+                                        "Rscript -e \"knitr::knit('%i', output='%o')\""))
+                     (list "markdown" "\\.[rR]?md]\\'" "md" "Markdown"
+                           (concatenate 'string R-binary-folder
+                                        "Rscript -e \"rmarkdown::render('%i')\""))
+                     (list "rst" "\\.rst" "rst" "ReStructuredText"
+                           (concatenate 'string R-binary-folder
+                                        "Rscript -e \"knitr::knit('%i', output='%o')\""))
+                     (list "brew" "\\.[rR]?brew\\'" "brew" "Brew"
+                           (concatenate 'string R-binary-folder
+                                        "Rscript -e \"knitr::knit('%i', output='%o')\""))
+                     (list "asciidoc" "\\.asciidoc\\'" "txt" "AsciiDoc"
+                           (concatenate 'string R-binary-folder
+                                        "Rscript -e \"knitr::knit('%i', output='%o')\""))
+                     (list "textile" "\\.textile\\'" "textile" "Textile"
+                           (concatenate 'string R-binary-folder
+                                        "Rscript -e \"knitr::knit('%i', output='%o')\""))))
   "Shell knitR weaver."
   :group 'polymode-weave
   :type 'object)
