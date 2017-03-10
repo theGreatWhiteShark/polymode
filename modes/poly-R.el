@@ -274,8 +274,8 @@
                      '(("Rmarkdown"  "\\.[rR]?md\\|rapport\\'" "R Markdown"
                         "/usr/local/bin/Rscript -e \"rmarkdown::render('%i', output_format = '%t', output_file = '%o')\""))
                      :to
-                     '(("auto" . pm--rmarkdown-shell-auto-selector)
-                       ("html" "html" "html document" "html_document")
+                     '(("html" "html" "html document" "html_document")
+                       ("auto" . pm--rmarkdown-shell-auto-selector)
                        ("pdf" "pdf" "pdf document" "pdf_document")
                        ("word" "docx" "word document" "word_document")
                        ("md" "md" "md document" "md_document")
@@ -283,15 +283,16 @@
                        ("slidy" "html" "slidy presentation" "slidy_presentation")
                        ("beamer" "pdf" "beamer presentation" "beamer_presentation")))
   "R Markdown exporter.
-Please not that with 'AUTO DETECT' export options, output file
+Please note that with 'AUTO DETECT' export options, output file
 names are inferred by Rmarkdown from YAML description
 block. Thus, output file names don't comply with
 `polymode-exporter-output-file-format'."
   :group 'polymode-export
   :type 'object)
 
-(polymode-register-exporter pm-exporter/Rmarkdown nil
-                            pm-poly/markdown pm-poly/rapport)
+(polymode-register-exporter pm-exporter/Rmarkdown t
+                            pm-poly/markdown pm-poly/rapport
+                            pm-ploy/R)
 
 (defun pm--rmarkdown-shell-auto-selector (action &rest ignore)
   (cl-case action
