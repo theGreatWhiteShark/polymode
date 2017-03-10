@@ -292,7 +292,7 @@ block. Thus, output file names don't comply with
 
 (polymode-register-exporter pm-exporter/Rmarkdown t
                             pm-poly/markdown pm-poly/rapport
-                            pm-ploy/R)
+                            pm-poly/R)
 
 (defun pm--rmarkdown-shell-auto-selector (action &rest ignore)
   (cl-case action
