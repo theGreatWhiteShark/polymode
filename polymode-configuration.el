@@ -1,8 +1,8 @@
 ;; Examples of polymode configuration. Choose what suits your needs and place
 ;; into your .emacs file.
 
-;;; MARKDOWN
-(add-to-list 'auto-mode-alist '("\\.md$" . poly-markdown-mode))
+;;; BOOKDOWN
+(add-to-list 'auto-mode-alist '("\\.md$" . poly-bookdown-mode))
 
 ;;; ORG
 ;; org is not working presently
@@ -11,7 +11,7 @@
 ;;; R related modes
 (add-to-list 'auto-mode-alist '("\\.Snw$" . poly-noweb+r-mode))
 (add-to-list 'auto-mode-alist '("\\.Rnw$" . poly-noweb+r-mode))
-(add-to-list 'auto-mode-alist '("\\.Rmd$" . poly-markdown+r-mode))
+(add-to-list 'auto-mode-alist '("\\.Rmd$" . poly-bookdown+r-mode))
 (add-to-list 'auto-mode-alist '("\\.rapport$" . poly-rapport-mode))
 (add-to-list 'auto-mode-alist '("\\.Rhtml$" . poly-html+r-mode))
 (add-to-list 'auto-mode-alist '("\\.Rbrew$" . poly-brew+r-mode))

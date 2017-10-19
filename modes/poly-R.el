@@ -59,15 +59,15 @@
 
 
 
-;; MARKDOWN
-(require 'poly-markdown)
-;;;###autoload (autoload 'poly-markdown+r-mode "poly-R")
-(define-polymode poly-markdown+r-mode pm-poly/markdown :lighter " PM-Rmd")
+;; BOOKDOWN
+(require 'poly-bookdown)
+;;;###autoload (autoload 'poly-bookdown+r-mode "poly-R")
+(define-polymode poly-bookdown+r-mode pm-poly/bookdown :lighter " PM-Rmd")
 
 
 ;; RAPPORT
 (defcustom pm-poly/rapport
-  (clone pm-poly/markdown "rapport"
+  (clone pm-poly/bookdown "rapport"
          :innermodes '(pm-inner/brew+R
                        pm-inner/rapport+YAML))
   "Rapport template configuration"
@@ -267,50 +267,50 @@
 
 
 
-;; Rmarkdown
+;; Rbookdown
 ;; Using the variable R-binary-folder since I am working on different
 ;; machines with different R versions.
-(defcustom pm-exporter/Rmarkdown
-  (pm-shell-exporter "Rmarkdown"
+(defcustom pm-exporter/Rbookdown
+  (pm-shell-exporter "Rbookdown"
                      :from
                      (list
-                      (list "Rmarkdown"  "\\.[rR]?md\\|rapport\\'" "R Markdown"
+                      (list "Rbookdown"  "\\.[rR]?md\\|rapport\\'" "R Bookdown"
                             (concatenate 'string R-binary-folder
-                                         "Rscript -e \"rmarkdown::render('%i', output_format = '%t', output_file = '%o')\"")))
+                                         "Rscript -e \"rbookdown::render('%i', output_format = '%t', output_file = '%o')\"")))
                      :to
                      '(("html" "html" "html document" "html_document")
-                       ("auto" . pm--rmarkdown-shell-auto-selector)
+                       ("auto" . pm--rbookdown-shell-auto-selector)
                        ("pdf" "pdf" "pdf docum1ent" "pdf_document")
                        ("word" "docx" "word document" "word_document")
                        ("md" "md" "md document" "md_document")
                        ("ioslides" "html" "ioslides presentation" "ioslides_presentation")
                        ("slidy" "html" "slidy presentation" "slidy_presentation")
                        ("beamer" "pdf" "beamer presentation" "beamer_presentation")))
-  "R Markdown exporter.
+  "R Bookdown exporter.
 Please note that with 'AUTO DETECT' export options, output file
-names are inferred by Rmarkdown from YAML description
+names are inferred by Rbookdown from YAML description
 block. Thus, output file names don't comply with
 `polymode-exporter-output-file-format'."
   :group 'polymode-export
   :type 'object)
 
-(polymode-register-exporter pm-exporter/Rmarkdown t
-                            pm-poly/markdown pm-poly/rapport
+(polymode-register-exporter pm-exporter/Rbookdown t
+                            pm-poly/bookdown pm-poly/rapport
                             pm-poly/R)
 
-(defun pm--rmarkdown-shell-auto-selector (action &rest ignore)
+(defun pm--rbookdown-shell-auto-selector (action &rest ignore)
   (cl-case action
     (doc "AUTO DETECT")
-    (command (concatenate 'string "Rscript -e \"rmarkdown::render('%i', output_format = 'all')\""))
-    (output-file #'pm--rmarkdown-output-file-sniffer)))
+    (command (concatenate 'string "Rscript -e \"rbookdown::render('%i', output_format = 'all')\""))
+    (output-file #'pm--rbookdown-output-file-sniffer)))
 
-(defcustom pm-exporter/Rmarkdown-ESS
-  (pm-callback-exporter "Rmarkdown-ESS"
+(defcustom pm-exporter/Rbookdown-ESS
+  (pm-callback-exporter "Rbookdown-ESS"
                         :from
-                        '(("Rmarkdown" "\\.[rR]?md\\|rapport\\'" "R Markdown"
-                           "rmarkdown::render('%I', output_format = '%t', output_file = '%O')\n"))
+                        '(("Rbookdown" "\\.[rR]?md\\|rapport\\'" "R Bookdown"
+                           "rbookdown::render('%I', output_format = '%t', output_file = '%O')\n"))
                         :to
-                        '(("auto" . pm--rmarkdown-callback-auto-selector)
+                        '(("auto" . pm--rbookdown-callback-auto-selector)
                           ("html" "html" "html document" "html_document")
                           ("pdf" "pdf" "pdf document" "pdf_document")
                           ("word" "docx" "word document" "word_document")
@@ -320,25 +320,25 @@ block. Thus, output file names don't comply with
                           ("beamer" "pdf" "beamer presentation" "beamer_presentation"))
                         :function 'pm--ess-run-command
                         :callback 'pm--ess-callback)
-  "R Markdown exporter.
+  "R Bookdown exporter.
 Please not that with 'AUTO DETECT' export options, output file
-names are inferred by Rmarkdown from YAML description
+names are inferred by Rbookdown from YAML description
 block. Thus, output file names don't comply with
 `polymode-exporter-output-file-format'."
   :group 'polymode-export
   :type 'object)
 
-(polymode-register-exporter pm-exporter/Rmarkdown-ESS nil
-                            pm-poly/markdown pm-poly/rapport)
+(polymode-register-exporter pm-exporter/Rbookdown-ESS nil
+                            pm-poly/bookdown pm-poly/rapport)
 
-(defun pm--rmarkdown-callback-auto-selector (action &rest ignore)
+(defun pm--rbookdown-callback-auto-selector (action &rest ignore)
   (cl-case action
     (doc "AUTO DETECT")
     ;; last file is not auto-detected unless we cat new line
-    (command "rmarkdown::render('%I', output_format = 'all')")
-    (output-file #'pm--rmarkdown-output-file-sniffer)))
+    (command "rbookdown::render('%I', output_format = 'all')")
+    (output-file #'pm--rbookdown-output-file-sniffer)))
 
-(defun pm--rmarkdown-output-file-sniffer ()
+(defun pm--rbookdown-output-file-sniffer ()
   (goto-char (point-min))
   (let (files)
     (while (re-search-forward "Output created: +\\(.*\\)" nil t)
@@ -357,9 +357,9 @@ block. Thus, output file names don't comply with
                      (list "html" "\\.x?html?\\'" "html" "HTML"
                            (concatenate 'string R-binary-folder
                                         "Rscript -e \"knitr::knit('%i', output='%o')\""))
-                     (list "markdown" "\\.[rR]?md]\\'" "md" "Markdown"
+                     (list "bookdown" "\\.[rR]?md]\\'" "md" "Bookdown"
                            (concatenate 'string R-binary-folder
-                                        "Rscript -e \"rmarkdown::render('%i')\""))
+                                        "Rscript -e \"rbookdown::render('%i')\""))
                      (list "rst" "\\.rst" "rst" "ReStructuredText"
                            (concatenate 'string R-binary-folder
                                         "Rscript -e \"knitr::knit('%i', output='%o')\""))
@@ -377,7 +377,7 @@ block. Thus, output file names don't comply with
   :type 'object)
 
 (polymode-register-weaver pm-weaver/knitR nil
-                          pm-poly/noweb+R pm-poly/markdown
+                          pm-poly/noweb+R pm-poly/bookdown
                           pm-poly/rapport pm-poly/html+R)
 
 (defcustom pm-weaver/knitR-ESS
@@ -385,7 +385,7 @@ block. Thus, output file names don't comply with
                       :from-to
                       '(("latex" "\\.\\(tex\\|rnw\\)\\'" "tex" "LaTeX" "knitr::knit('%I', output='%O')")
                         ("html" "\\.x?html?\\'" "html" "HTML" "knitr::knit('%I', output='%O')")
-                        ("markdown" "\\.r?md\\'" "md" "Markdown" "rmarkdown::render('%I')")
+                        ("bookdown" "\\.r?md\\'" "md" "Bookdown" "rbookdown::render('%I')")
                         ("rst" "\\.rst\\'" "rst" "ReStructuredText" "knitr::knit('%I', output='%O')")
                         ("brew" "\\.r?brew\\'" "brew" "Brew" "knitr::knit('%I', output='%O')")
                         ("asciidoc" "\\.asciidoc\\'" "txt" "AsciiDoc" "knitr::knit('%I', output='%O')")
@@ -397,7 +397,7 @@ block. Thus, output file names don't comply with
   :type 'object)
 
 (polymode-register-weaver pm-weaver/knitR-ESS nil
-                          pm-poly/noweb+R pm-poly/markdown
+                          pm-poly/noweb+R pm-poly/bookdown
                           pm-poly/rapport pm-poly/html+R)
 
 (defcustom pm-weaver/Sweave-ESS

@@ -4,7 +4,7 @@
 ;;; POLYMODE objects
 ;; These are simple generic configuration objects. More specialized
 ;; configuration objects are defined in language-specific files (e.g. poly-R.el,
-;; poly-markdown.el etc).
+;; poly-bookdown.el etc).
 
 (defcustom pm-inner/fallback
   (pm-chunkmode "FallBack" :mode 'poly-fallback-mode)
