@@ -1,4 +1,11 @@
 # Why I did this fork?
+
+## Use **bookdown-mode** over **markdown-mode**
+Since I want to write some documents using the R [bookdown](https://bookdown.org/yihui/bookdown/) package, I switched the internal usage of the markdown-mode to my [bookdown-mode](https://github.com/theGreatWhiteShark/bookdown-mode) (which is still under construction). It will provide a more rich syntax highlighting and support for new pandoc features.
+
+For installation instructions please check out the guide in the README of bookdown-mode.
+
+## Use the **rmarkdown** package over **knitr**
 For the export of .Rmd to .html I didn't wanted to use the **knitr** package but instead harness to full power of the **rmarkdown** package.
 
 [![unstable](http://badges.github.io/stability-badges/dist/unstable.svg)](http://github.com/badges/stability-badges)

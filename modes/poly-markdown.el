@@ -33,39 +33,39 @@
 ;; (require 'markdown-mode)
 
 (defcustom pm-host/markdown
-  (pm-bchunkmode "Markdown"
-                 :mode 'markdown-mode
-                 :init-functions '(poly-markdown-remove-markdown-hooks))
-  "Markdown host chunkmode"
+  (pm-bchunkmode "Bookdown"
+                 :mode 'bookdown-mode
+                 :init-functions '(poly-bookdown-remove-bookdown-hooks))
+  "Bookdown host chunkmode"
   :group 'hostmodes
   :type 'object)
 
-(defcustom  pm-inner/markdown
-  (pm-hbtchunkmode-auto "markdown"
+(defcustom  pm-inner/bookdown
+  (pm-hbtchunkmode-auto "bookdown"
                         :head-reg "^[ \t]*```[{ \t]*\\w.*$"
                         :tail-reg "^[ \t]*```[ \t]*$"
                         :retriever-regexp "```[ \t]*\\(?:{\\|lang=\\)?\\([^ \t\n,}]+\\)"
                         :font-lock-narrow t)
-  "Markdown typical chunk."
+  "Bookdown typical chunk."
   :group 'innermodes
   :type 'object)
 
-(defcustom pm-poly/markdown
-  (pm-polymode-multi-auto "markdown"
-                          :hostmode 'pm-host/markdown
-                          :auto-innermode 'pm-inner/markdown)
-  "Markdown typical configuration"
+(defcustom pm-poly/bookdown
+  (pm-polymode-multi-auto "bookdown"
+                          :hostmode 'pm-host/bookdown
+                          :auto-innermode 'pm-inner/bookdown)
+  "Bookdown typical configuration"
   :group 'polymodes
   :type 'object)
 
-;;;###autoload  (autoload 'poly-markdown-mode "poly-markdown")
-(define-polymode poly-markdown-mode pm-poly/markdown)
+;;;###autoload  (autoload 'poly-bookdown-mode "poly-bookdown")
+(define-polymode poly-bookdown-mode pm-poly/bookdown)
 
 ;;; FIXES:
-(defun poly-markdown-remove-markdown-hooks ()
+(defun poly-bookdown-remove-bookdown-hooks ()
   ;; get rid of awful hooks
-  (remove-hook 'window-configuration-change-hook 'markdown-fontify-buffer-wiki-links t)
-  (remove-hook 'after-change-functions 'markdown-check-change-for-wiki-link t))
+  (remove-hook 'window-configuration-change-hook 'bookdown-fontify-buffer-wiki-links t)
+  (remove-hook 'after-change-functions 'bookdown-check-change-for-wiki-link t))
 
 
-(provide 'poly-markdown)
+(provide 'poly-bookdown)
